@@ -1,0 +1,28 @@
+def pomLocation = "user-domain-api-parent"
+def targetLocation = "user-domain-api-parent/user-domain-api/target"
+def testTargetLocation = "user-domain-apiparent/user-domain-api-test/target"
+
+node {
+
+    stage('Checkout') {
+        checkout scm
+    }
+
+    stage('Build') {
+
+        try {
+            sh "mvn -B -V -U -e -f " + pomLocation + "/pom.xml clean install -Prun-clean-env-build"
+        } finally {
+            junit targetLocation + '/surefire-reports/*.xml,' + testTargetLocation + '/failsafe-reports/*.xml'
+
+            publishHTML(target: [
+                    allowMissing         : true,
+                    alwaysLinkToLastBuild: false,
+                    keepAll              : true,
+                    reportDir            : targetLocation + '/pit-reports',
+                    reportFiles          : 'index.html',
+                    reportName           : "user-domain-api pit report"
+            ])
+        }
+    }
+}

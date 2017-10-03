@@ -1,0 +1,11 @@
+node{
+
+    stage('Checkout') {
+        checkout scm
+    }
+
+    stage('Release to QA'){
+        sh "kubectl config --kubeconfig=/etc/.kube/config use-context aws_QA"
+        sh "kubectl replace --kubeconfig=/etc/.kube/config  -f user-domain-api-parent/user-domain-api/kubernetes/user-domain-api-qa-deployment.yml --record"
+    }
+}

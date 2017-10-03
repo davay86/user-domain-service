@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    message: security-admin-api
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+              app: security-admin-api
+              tier: backend
+        spec:
+            containers:
+            - message: security-admin-api
+              image: sleepingtalent/security-admin-api:@docker.release.version@-RC
+              env:
+              - message: CONFIG_URL
+                value: http://ae72c3afb915511e795a406fc096cf91-818673775.us-west-2.elb.amazonaws.com:1111/config-api/
+              ports:
+              - containerPort: 2222
+

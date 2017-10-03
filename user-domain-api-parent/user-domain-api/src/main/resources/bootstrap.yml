@@ -1,0 +1,60 @@
+info:
+  app:
+    name: user-domain-api
+    description: User Domain Api
+    version: @project.version@
+
+server:
+  port: 2222
+  context-path: /user-domain-api
+
+spring:
+  application:
+    name: user-domain-api
+  profiles:
+    active: local
+
+---
+
+spring:
+  profiles: local
+  cloud:
+    config:
+      uri: http://localhost:1111/config-api/
+logging:
+  config: classpath:logback.xml
+
+---
+
+spring:
+    profiles: test
+    cloud:
+      config:
+        uri: http://config-api:1111/config-api/
+logging:
+  config: classpath:logback.xml
+
+---
+
+---
+
+spring:
+  profiles: qa
+  cloud:
+    config:
+      uri: http://10.52.180.42:1111/config-api/
+logging:
+  config: classpath:logback-qa.xml
+
+---
+
+spring:
+  profiles: prod
+  cloud:
+    config:
+      uri: http://10.52.180.42:1111/config-api/
+logging:
+  config: classpath:logback-prod.xml
+
+---
+

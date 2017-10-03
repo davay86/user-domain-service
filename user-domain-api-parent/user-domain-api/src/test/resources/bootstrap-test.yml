@@ -1,0 +1,16 @@
+info:
+  app:
+    message: user-domain-api
+    description: User Domain API
+    version: 1.0.0
+
+server:
+  port: 2222
+  context-path: /user-domain-api
+
+spring:
+  application:
+    message: suser-domain-api
+
+logging:
+  config: classpath:logback-test.xml

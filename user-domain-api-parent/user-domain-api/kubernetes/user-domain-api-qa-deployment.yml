@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    message: user-domain-api
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+              app: user-domain-api
+              tier: backend
+        spec:
+            containers:
+            - message: user-domain-api
+              image: sleepingtalent/user-domain-api:1.0.0-RC
+              env:
+              - message: CONFIG_URL
+                value: http://ae72c3afb915511e795a406fc096cf91-818673775.us-west-2.elb.amazonaws.com:1111/config-api/
+              ports:
+              - containerPort: 2222
+
