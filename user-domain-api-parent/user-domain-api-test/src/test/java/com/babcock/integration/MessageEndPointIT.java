@@ -36,8 +36,8 @@ public class MessageEndPointIT {
 
     @Test
     public void message_endPoint_returns_asExpected() {
-        ResponseEntity<String> response = restTemplate.getForEntity(baseUrl+"/message", String.class);
-        assertEquals("",response.getBody());
+        ResponseEntity<String> response = restTemplate.getForEntity(baseUrl+"/message/message", String.class);
+        assertEquals("Demo Message",response.getBody());
     }
 }
 
