@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
+import static org.springframework.context.annotation.FilterType.REGEX;
 
 @TestConfiguration
 @Profile("test")
@@ -15,6 +16,6 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
         basePackages="com.babcock.user.api",
         excludeFilters = {@ComponentScan.Filter(type = ASSIGNABLE_TYPE, value = {
                 Application.class,CloudConfiguration.class,SecurityConfiguration.class})
-        })
+        , @ComponentScan.Filter(type = REGEX, pattern = "com.babcock.user.api.*Test")})
 public class ConfigurationForTest {
 }
