@@ -30,8 +30,8 @@ public class TestConfiguration {
     @Value("${security.auth.token.url}")
     private String tokenUrl;
 
-    @Bean
-    public RestTemplate restTemplate() {
+    @Bean(name = "oauthRestTemplate")
+    public RestTemplate oauthRestTemplate() {
         ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();
 
         resourceDetails.setId(authId);
@@ -42,6 +42,11 @@ public class TestConfiguration {
 
         DefaultOAuth2ClientContext context = new DefaultOAuth2ClientContext();
         return new OAuth2RestTemplate(resourceDetails,context);
+    }
+
+    @Bean(name = "restTemplate")
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
 }

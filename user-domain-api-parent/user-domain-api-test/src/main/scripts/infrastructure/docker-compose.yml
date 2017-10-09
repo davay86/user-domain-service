@@ -56,13 +56,13 @@ services:
       networks:
         - microservices
       environment:
-        - SERVER_PORT=1114
+        - SERVER_PORT=1113
         - SPRING_PROFILES_ACTIVE=test
       ports:
         - "1113:1113"
       depends_on:
         - config-api
-      command: ["dockerize", "-wait", "http://config-api:1111/config-api/turbine-server/test", "-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=1113 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
+      command: ["dockerize", "-wait", "http://config-api:1111/config-api/turbine-server/test", "-wait", "http://rabbitmq:15672", "-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=1113 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
       volumes:
         - /home/developer/docker-logs/:/app/log
       expose:

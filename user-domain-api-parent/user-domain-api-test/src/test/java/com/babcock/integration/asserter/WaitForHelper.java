@@ -1,6 +1,7 @@
 package com.babcock.integration.asserter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.TestPropertySource;
@@ -13,6 +14,7 @@ import static org.junit.Assert.fail;
 public class WaitForHelper {
 
     @Autowired
+    @Qualifier("restTemplate")
     private RestTemplate restTemplate;
 
     @Value("${service.url}")

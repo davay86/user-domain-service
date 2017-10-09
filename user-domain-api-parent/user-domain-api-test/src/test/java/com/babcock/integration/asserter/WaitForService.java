@@ -17,7 +17,12 @@ public class WaitForService extends WaitUntilAsserter {
     @Override
     protected boolean execute() {
         try {
+
+            System.out.println("calling url :"+url);
+
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+            System.out.print("Status Code ("+response.getStatusCodeValue()+") : "+response.getStatusCode().is2xxSuccessful());
 
             if(response.getStatusCode().is2xxSuccessful()) {
                 return true;
@@ -27,6 +32,7 @@ public class WaitForService extends WaitUntilAsserter {
             }
 
         }catch (Exception ex) {
+            //System.err.println(ex);
             System.out.print(".");
             return false;
         }
