@@ -10,7 +10,7 @@ server:
 
 spring:
   application:
-    message: suser-domain-api
+    message: user-domain-api
 
 logging:
   config: classpath:logback-test.xml
