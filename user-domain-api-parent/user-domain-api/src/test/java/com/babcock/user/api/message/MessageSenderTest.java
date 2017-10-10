@@ -31,9 +31,6 @@ public class MessageSenderTest {
     @Autowired
     private MessageSender messageSender;
 
-    //@LocalServerPort
-    //private int port;
-
     @Test
     public void sendCreateUserEvent() throws Exception {
 

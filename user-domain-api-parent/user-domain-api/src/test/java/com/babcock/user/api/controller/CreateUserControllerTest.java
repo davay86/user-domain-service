@@ -33,9 +33,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class CreateUserControllerTest {
 
     @Autowired
-    CreateUserController createUserController;
-
-    @Autowired
     MessageCollector messageCollector;
 
     @Autowired
