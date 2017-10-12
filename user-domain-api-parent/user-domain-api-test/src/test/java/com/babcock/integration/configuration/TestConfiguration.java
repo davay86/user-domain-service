@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
@@ -29,6 +31,29 @@ public class TestConfiguration {
 
     @Value("${security.auth.token.url}")
     private String tokenUrl;
+
+    @Value("${database.url}")
+    String databaseUrl;
+
+    @Value("${database.driver}")
+    String databaseDriver;
+
+    @Value("${database.user}")
+    String databaseUser;
+
+    @Value("${database.password}")
+    String databasePassword;
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(databaseDriver);
+        dataSource.setUrl(databaseUrl);
+        dataSource.setUsername(databaseUser);
+        dataSource.setPassword(databasePassword);
+
+        return new JdbcTemplate(dataSource);
+    }
 
     @Bean(name = "oauthRestTemplate")
     public RestTemplate oauthRestTemplate() {

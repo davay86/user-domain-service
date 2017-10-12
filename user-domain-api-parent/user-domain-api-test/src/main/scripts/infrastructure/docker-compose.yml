@@ -18,6 +18,7 @@ services:
       expose:
         - "5672"
         - "15672"
+  #rabbitmq url http://localhost:15672/
 
   config-api:
       image: sleepingtalent/configuration-api:latest
@@ -33,6 +34,7 @@ services:
         - /home/developer/docker-logs/:/app/log
       expose:
         - "1111"
+  #http://localhost:1111/config-api/info
 
   security-api:
       image: sleepingtalent/security-api:latest
@@ -50,6 +52,7 @@ services:
         - /home/developer/docker-logs/:/app/log
       expose:
         - "1112"
+  #http://localhost:1112/auth/info
 
   turbine-server:
       image: sleepingtalent/turbine-server:latest
@@ -67,6 +70,8 @@ services:
         - /home/developer/docker-logs/:/app/log
       expose:
         - "1113"
+  #http://localhost:1113/hystrix
+  #http://localhost:8989/turbine.stream
 
 networks:
   microservices:

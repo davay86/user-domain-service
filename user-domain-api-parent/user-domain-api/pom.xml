@@ -14,6 +14,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <maven.test.skip>false</maven.test.skip>
         <skip.pit.test>false</skip.pit.test>
         <pit.mutation.threshold>100</pit.mutation.threshold>
 
@@ -23,6 +24,37 @@
         <docker.release.version>${project.version}</docker.release.version>
     </properties>
 
+    <profiles>
+    <profile>
+        <id>start-infrastructure-services</id>
+        <properties>
+            <maven.test.skip>true</maven.test.skip>
+            <skip.pit.test>true</skip.pit.test>
+        </properties>
+    </profile>
+    <profile>
+        <id>stop-infrastructure-services</id>
+        <properties>
+            <maven.test.skip>true</maven.test.skip>
+            <skip.pit.test>true</skip.pit.test>
+        </properties>
+    </profile>
+    <profile>
+        <id>start-microservice-services</id>
+        <properties>
+            <maven.test.skip>true</maven.test.skip>
+            <skip.pit.test>true</skip.pit.test>
+        </properties>
+    </profile>
+    <profile>
+        <id>stop-microservice-services</id>
+        <properties>
+            <maven.test.skip>true</maven.test.skip>
+            <skip.pit.test>true</skip.pit.test>
+        </properties>
+    </profile>
+    </profiles>
+
     <dependencies>
 
         <dependency>
@@ -30,10 +62,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-config</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -52,15 +84,15 @@
             <scope>test</scope>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-hystrix</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix</artifactId>
+        </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-netflix-hystrix-stream</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-netflix-hystrix-stream</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

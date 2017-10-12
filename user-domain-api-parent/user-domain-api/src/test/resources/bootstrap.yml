@@ -1,0 +1,28 @@
+info:
+  app:
+    name: user-domain-api
+    description: user-domain-api
+    version: 1.0.0
+
+server:
+  port: 2222
+  context-path: /user-domain-api
+
+spring:
+  application:
+    name: user-domain-api
+  profiles:
+    active: test
+
+
+---
+
+spring:
+    profiles: test
+    cloud:
+      config:
+        enabled: false
+logging:
+  config: classpath:logback.xml
+
+---

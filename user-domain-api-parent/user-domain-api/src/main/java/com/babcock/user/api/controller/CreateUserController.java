@@ -2,6 +2,7 @@ package com.babcock.user.api.controller;
 
 import com.babcock.user.api.message.MessageSender;
 import com.babcock.user.api.payload.UserDetails;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class CreateUserController {
 
     private Logger logger = Logger.getLogger(getClass().getName());
 
+    @HystrixCommand
     @RequestMapping(value = "/userDetails", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody List<UserDetails> userDetailsList) {

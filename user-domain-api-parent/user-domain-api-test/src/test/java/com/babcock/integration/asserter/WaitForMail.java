@@ -6,14 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-public class WaitForService extends WaitUntilAsserter {
+public class WaitForMail extends WaitUntilAsserter {
 
-    private static Logger logger = LoggerFactory.getLogger(WaitForService.class);
+    private static Logger logger = LoggerFactory.getLogger(WaitForMail.class);
 
     private String url;
     private RestTemplate restTemplate;
 
-    public WaitForService(String url, RestTemplate restTemplate) {
+    public WaitForMail(String url, RestTemplate restTemplate) {
         super();
         this.url = url;
         this.restTemplate = restTemplate;
@@ -23,10 +23,10 @@ public class WaitForService extends WaitUntilAsserter {
     protected boolean execute() {
         try {
 
-            logger.info("waiting for service at url : {}",url);
+            logger.info("waiting for mail service at url : {}",url);
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-            if(response.getStatusCode().is2xxSuccessful()) {
+            if(!response.getBody().isEmpty() && !response.getBody().equals("[]")) {
                 return true;
             }else {
                 return false;
@@ -42,11 +42,11 @@ public class WaitForService extends WaitUntilAsserter {
 
     @Override
     protected String getTaskName() {
-        return "WaitForService";
+        return "WaitForMail";
     }
 
     @Override
     protected String getFailureMessage() {
-        return url+" not available";
+        return "no messages available at : "+url;
     }
 }
