@@ -65,13 +65,13 @@ services:
         - "1113:1113"
       depends_on:
         - config-api
-      command: ["dockerize", "-wait", "http://config-api:1111/config-api/turbine-server/test", "-wait", "http://rabbitmq:15672", "-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=1113 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
+      command: ["dockerize", "-wait", "http://config-api:1111/config-api/turbine-server/test", "-wait", "tcp://rabbitmq:5672", "-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=1113 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
       volumes:
         - /home/developer/docker-logs/:/app/log
       expose:
         - "1113"
   #http://localhost:1113/hystrix
-  #http://localhost:8989/turbine.stream
+  #http://turbine-server:8989/turbine.stream
 
 networks:
   microservices:

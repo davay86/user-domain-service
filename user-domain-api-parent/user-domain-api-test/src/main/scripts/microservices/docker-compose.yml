@@ -38,7 +38,7 @@ services:
       - "2223:2223"
       depends_on:
       - test-smtp-server
-      command: ["dockerize", "-wait", "http://config-api:1111/config-api/email-service/test", "-wait", "http://test-smtp-server:8025", "-wait", "http://rabbitmq:15672","-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=2223 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
+      command: ["dockerize", "-wait", "http://config-api:1111/config-api/email-service/test", "-wait", "http://test-smtp-server:8025", "-wait", "tcp://rabbitmq:5672","-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=2223 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
       volumes:
        - /home/developer/docker-logs/:/app/log
       expose:
@@ -54,7 +54,7 @@ services:
       - "2224:2224"
       depends_on:
       - test-db
-      command: ["dockerize", "-wait", "http://config-api:1111/config-api/user-service/test" , "-wait", "tcp://test-db:3306", "-wait", "http://rabbitmq:15672", "-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=2224 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
+      command: ["dockerize", "-wait", "http://config-api:1111/config-api/user-service/test" , "-wait", "tcp://test-db:3306", "-wait", "tcp://rabbitmq:5672", "-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=2224 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
       volumes:
        - /home/developer/docker-logs/:/app/log
       expose:
@@ -68,7 +68,7 @@ services:
       - SPRING_PROFILES_ACTIVE=test
       ports:
       - "2222:2222"
-      command: ["dockerize", "-wait", "http://config-api:1111/config-api/user-domain-api/test", "-wait", "http://rabbitmq:15672", "-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=2222 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
+      command: ["dockerize", "-wait", "http://config-api:1111/config-api/user-domain-api/test", "-wait", "tcp://rabbitmq:5672", "-timeout", "380s", "--", "/bin/sh", "-c", "java -jar app.jar --server.port=2222 --spring.profiles.active=test --spring.cloud.config.uri=http://config-api:1111/config-api/"]
       volumes:
        - /home/developer/docker-logs/:/app/log
       expose:
