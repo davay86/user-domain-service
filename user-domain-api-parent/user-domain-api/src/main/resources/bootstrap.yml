@@ -42,7 +42,7 @@ spring:
   profiles: qa
   cloud:
     config:
-      uri: http://10.52.180.42:1111/config-api/
+      uri: http://config-api-gateway:1111/config-api/
 logging:
   config: classpath:logback-qa.xml
 
@@ -52,7 +52,7 @@ spring:
   profiles: prod
   cloud:
     config:
-      uri: http://10.52.180.42:1111/config-api/
+      uri: http://config-api-gateway:1111/config-api/
 logging:
   config: classpath:logback-prod.xml
 
