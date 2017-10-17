@@ -34,6 +34,9 @@ public class WaitForHelper {
     @Value("${email.service.url}")
     String emailServiceUrl;
 
+    @Value("${mail.server.url}")
+    String mailServerUrl;
+
     private static boolean serviceUnavailable = false;
 
     public void waitForServices() throws InterruptedException {
@@ -61,7 +64,7 @@ public class WaitForHelper {
     }
 
     public void waitForMailMessages() throws InterruptedException {
-        WaitForMail waitForMail = new WaitForMail("http://localhost:8025/api/v1/messages", restTemplate);
+        WaitForMail waitForMail = new WaitForMail(mailServerUrl+"/api/v1/messages", restTemplate);
         waitForMail.setMaxWaitTime(60000);
         waitForMail.performAssertion();
     }

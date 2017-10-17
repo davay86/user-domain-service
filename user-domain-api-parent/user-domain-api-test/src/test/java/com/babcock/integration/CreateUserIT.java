@@ -50,6 +50,9 @@ public class CreateUserIT {
     @Value("${user.domain.api.url}")
     String userDomainApiUrl;
 
+    @Value("${mail.server.url}")
+    String mailServerUrl;
+
     @Before
     public void before() throws InterruptedException {
         waitForHelper.waitForServices();
@@ -71,7 +74,7 @@ public class CreateUserIT {
         logger.info("waiting for mail message to be received...");
         waitForHelper.waitForMailMessages();
 
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8025/api/v1/messages", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(mailServerUrl+"/api/v1/messages", String.class);
 
         logger.info("assert mail message contents..");
         assertThat(response.getBody(), containsString("To: admin@test.com"));
