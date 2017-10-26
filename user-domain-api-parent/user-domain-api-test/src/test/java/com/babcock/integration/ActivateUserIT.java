@@ -3,8 +3,11 @@ package com.babcock.integration;
 import com.babcock.integration.application.TestApplication;
 import com.babcock.integration.asserter.WaitForHelper;
 import com.babcock.integration.helper.DatabaseHelper;
+import com.babcock.integration.helper.JsonConverter;
+import com.babcock.integration.payload.UserDetails;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,21 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TestApplication.class})
 @TestPropertySource("classpath:test.properties")
-public class CreateUserIT {
+public class ActivateUserIT {
 
     private static Logger logger = LoggerFactory.getLogger(CreateUserIT.class);
 
@@ -37,11 +35,10 @@ public class CreateUserIT {
     private RestTemplate oAuthRestTemplate;
 
     @Autowired
-    @Qualifier("restTemplate")
-    private RestTemplate restTemplate;
+    private WaitForHelper waitForHelper;
 
     @Autowired
-    private WaitForHelper waitForHelper;
+    private JsonConverter jsonConverter;
 
     @Autowired
     private DatabaseHelper databaseHelper;
@@ -52,9 +49,16 @@ public class CreateUserIT {
     @Value("${mail.server.url}")
     String mailServerUrl;
 
+    String uniqueString;
+
     @Before
     public void before() throws InterruptedException {
         waitForHelper.waitForServices();
+
+        uniqueString = getUniqueString();
+
+        databaseHelper.insertUser("username" + uniqueString,"firstname","lastname");
+        databaseHelper.insertActiveUser("activeUsername" + uniqueString,"activeFirstname", "activeLastname");
     }
 
     @After
@@ -63,32 +67,21 @@ public class CreateUserIT {
     }
 
     @Test
-    public void createUserAPI_createsUser_and_sendsNotificationEmail() throws InterruptedException {
-        String uniqueStr = getUniqueString();
-
-        String requestJson = "["+getExamplePayload(uniqueStr)+"]";
-
+    public void getPending_returnsUserNotActivated() throws InterruptedException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
 
-        logger.info("sending payload {} to {}",requestJson, userDomainApiUrl + "/createUser/userDetails");
-        oAuthRestTemplate.postForObject(userDomainApiUrl + "/createUser/userDetails", entity,String.class);
 
-        logger.info("waiting for mail message to be received...");
-        waitForHelper.waitForMailMessages();
+        logger.info("sending request to {}", userDomainApiUrl + "/activateUser/pendingUsers");
+        ResponseEntity<String> exchange = oAuthRestTemplate.exchange(userDomainApiUrl + "/activateUser/pendingUsers", HttpMethod.GET, entity, String.class);
 
-        ResponseEntity<String> response = restTemplate.getForEntity(mailServerUrl+"/api/v1/messages", String.class);
+        List<UserDetails> userList = jsonConverter.convertjsonStringToUserList(exchange.getBody());
 
-        logger.info("assert mail message contents..");
-        assertThat(response.getBody(), containsString("To: admin@test.com"));
-        assertThat(response.getBody(), containsString("Subject: New User Awaiting Activation"));
-        assertThat(response.getBody(), containsString("User joe"+uniqueStr+"(joe "+uniqueStr+") has been created and is awaiting activation"));
-
-        String sql = buildFindByUserNameQuery("joe"+uniqueStr);
-
-        logger.info("waiting for db row from query {}",sql);
-        waitForHelper.waitForOneRowInDB(sql);
+        Assert.assertEquals(1,userList.size());
+        UserDetails userDetails = userList.get(0);
+        Assert.assertEquals("username" + uniqueString,userDetails.getUsername());
+        Assert.assertFalse(userDetails.isActive());
     }
 
     public String buildFindByUserNameQuery(String username) {
@@ -103,6 +96,4 @@ public class CreateUserIT {
     private String getUniqueString() {
         return RandomStringUtils.randomAlphabetic(10);
     }
-
 }
-
