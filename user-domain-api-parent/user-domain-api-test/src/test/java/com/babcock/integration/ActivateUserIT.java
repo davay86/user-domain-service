@@ -51,14 +51,19 @@ public class ActivateUserIT {
 
     String uniqueString;
 
+    String username;
+    String activeUsername;
+
     @Before
     public void before() throws InterruptedException {
         waitForHelper.waitForServices();
 
         uniqueString = getUniqueString();
+        username = "username" + uniqueString;
+        activeUsername = "activeUsername" + uniqueString;
 
-        databaseHelper.insertUser("username" + uniqueString,"firstname","lastname");
-        databaseHelper.insertActiveUser("activeUsername" + uniqueString,"activeFirstname", "activeLastname");
+        databaseHelper.insertUser(username,"firstname","lastname");
+        databaseHelper.insertActiveUser(activeUsername,"activeFirstname", "activeLastname");
     }
 
     @After
@@ -84,12 +89,35 @@ public class ActivateUserIT {
         Assert.assertFalse(userDetails.isActive());
     }
 
+    @Test
+    public void activateUser() throws InterruptedException {
+        UserDetails userByUsername = databaseHelper.findUserByUsername(username);
+
+        String requestJson = "["+getExamplePayload(userByUsername.getId())+"]";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
+
+        logger.info("sending payload {} to {}",requestJson, userDomainApiUrl + "/activateUser/activate");
+        oAuthRestTemplate.postForObject(userDomainApiUrl + "/activateUser/activate", entity,String.class);
+
+        String sql = buildFindActiveUserByUserNameQuery(username);
+
+        logger.info("waiting for db row from query {}",sql);
+        waitForHelper.waitForOneRowInDB(sql);
+    }
+
     public String buildFindByUserNameQuery(String username) {
         return "select count(*) from users where username = '"+username+"'";
     }
 
-    public String getExamplePayload(String uniqueStr) {
-        return "{\"username\": \"joe"+uniqueStr+"\",\"firstname\": \"joe\",\"lastname\": \""+uniqueStr+"\"}";
+    public String buildFindActiveUserByUserNameQuery(String username) {
+        return "select count(*) from users where username = '"+username+"' and active = true";
+    }
+
+    public String getExamplePayload(Long id) {
+        return "{\"id\": \""+id+"\"}";
     }
 
 

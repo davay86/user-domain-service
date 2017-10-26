@@ -40,6 +40,14 @@ public class MessageSenderTest {
         assertThat(received.getPayload(), equalTo("hello channel 1"));
     }
 
+    @Test
+    public void sendActivateUserEvent(){
+        messageSender.sendActivateUserEvent(123);
+
+        Message<String> received = getMessageFromChannel(messageChannels.activateUserChannelOutput());
+        assertThat(received.getPayload(), equalTo("{\"id\":\"123\"}"));
+    }
+
     private Message<String> getMessageFromChannel(MessageChannel channel) {
         return (Message<String>) messageCollector.forChannel(channel).poll();
     }

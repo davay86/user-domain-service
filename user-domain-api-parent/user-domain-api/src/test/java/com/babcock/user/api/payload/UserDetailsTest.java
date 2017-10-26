@@ -16,6 +16,12 @@ public class UserDetailsTest {
     }
 
     @Test
+    public void getId(){
+        userDetails.setId(123L);
+        Assert.assertEquals(123,userDetails.getId());
+    }
+
+    @Test
     public void getUsername() throws Exception {
         userDetails.setUsername("testUsername");
         Assert.assertEquals("testUsername",userDetails.getUsername());
@@ -34,10 +40,14 @@ public class UserDetailsTest {
     }
 
     @Test
+    public void isActive(){
+        userDetails.setActive(true);
+        Assert.assertTrue(userDetails.isActive());
+    }
+
+    @Test
     public void getJsonString() throws Exception {
-        userDetails.setUsername("testUsername");
-        userDetails.setFirstname("testFirstname");
-        userDetails.setLastname("testLastname");
+        userDetails = new UserDetails("testUsername","testFirstname","testLastname");
 
         String expectedString = "{ \"username\" : \"testUsername\"," +
                 "\"firstname\" : \"testFirstname\"," +

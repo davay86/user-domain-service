@@ -24,4 +24,9 @@ public class MessageSender {
         channels.createChannelOutput().send(MessageBuilder.withPayload(message).build());
     }
 
+    public void sendActivateUserEvent(long id){
+        String message = "{\"id\":\"" + id + "\"}";
+        channels.activateUserChannelOutput().send(MessageBuilder.withPayload(message).build());
+    }
+
 }
