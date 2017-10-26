@@ -28,7 +28,7 @@ import java.util.List;
 @TestPropertySource("classpath:test.properties")
 public class ActivateUserIT {
 
-    private static Logger logger = LoggerFactory.getLogger(CreateUserIT.class);
+    private static Logger logger = LoggerFactory.getLogger(ActivateUserIT.class);
 
     @Autowired
     @Qualifier("oauthRestTemplate")

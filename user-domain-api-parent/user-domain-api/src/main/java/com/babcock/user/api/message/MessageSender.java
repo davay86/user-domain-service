@@ -21,11 +21,14 @@ public class MessageSender {
     }
 
     public void sendCreateUserEvent(String message) {
+        logger.info("sending message: {}",message);
         channels.createChannelOutput().send(MessageBuilder.withPayload(message).build());
     }
 
     public void sendActivateUserEvent(long id){
         String message = "{\"id\":\"" + id + "\"}";
+
+        logger.info("sending message: {}",message);
         channels.activateUserChannelOutput().send(MessageBuilder.withPayload(message).build());
     }
 

@@ -32,7 +32,7 @@ spring:
       config:
         uri: http://config-api:1111/config-api/
 logging:
-  config: classpath:logback.xml
+  config: classpath:logback-docker.xml
 
 ---
 
@@ -44,7 +44,7 @@ spring:
     config:
       uri: http://config-api-gateway:1111/config-api/
 logging:
-  config: classpath:logback-qa.xml
+  config: classpath:logback-kubernetes.xml
 
 ---
 
@@ -54,7 +54,7 @@ spring:
     config:
       uri: http://config-api-gateway:1111/config-api/
 logging:
-  config: classpath:logback-prod.xml
+  config: classpath:logback-kubernetes.xml
 
 ---
 

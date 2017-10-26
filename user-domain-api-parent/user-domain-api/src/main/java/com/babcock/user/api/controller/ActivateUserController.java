@@ -2,6 +2,8 @@ package com.babcock.user.api.controller;
 
 import com.babcock.user.api.message.MessageSender;
 import com.babcock.user.api.payload.UserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/activateUser")
 public class ActivateUserController {
+
+    private static Logger logger = LoggerFactory.getLogger(ActivateUserController.class);
 
     @Value("${user-service-url}")
     String userServiceUrl;
@@ -33,6 +37,9 @@ public class ActivateUserController {
     @RequestMapping(value = "/activate", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void activateUser(@RequestBody List<UserDetails> userDetailsList){
+
+        logger.info("received userList:{}",userDetailsList);
+
         for (UserDetails userDetails : userDetailsList) {
             messageSender.sendActivateUserEvent(userDetails.getId());
         }

@@ -64,4 +64,14 @@ public class UserDetails {
                 "}";
     }
 
+    @Override
+    public String toString() {
+        return "UserDetails{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", active=" + active +
+                '}';
+    }
 }
