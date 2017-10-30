@@ -12,7 +12,21 @@ spec:
         spec:
             containers:
             - name: user-domain-api
-              image: sleepingtalent/user-domain-api:1.0.5
+              image: sleepingtalent/user-domain-api:1.0.6
+              readinessProbe:
+                httpGet:
+                  path: /user-domain-api/health
+                  port: 2222
+                initialDelaySeconds: 120
+                timeoutSeconds: 60
+                periodSeconds: 15
+              livenessProbe:
+                httpGet:
+                  path: /user-domain-api/health
+                  port: 2222
+                initialDelaySeconds: 120
+                timeoutSeconds: 60
+                periodSeconds: 15
               env:
               - name: CONFIG_URL
                 value: http://config-api-gateway:1111/config-api/
