@@ -1,5 +1,6 @@
 package com.babcock.integration.asserter;
 
+import com.noveria.assertion.asserter.WaitUntilAsserter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
