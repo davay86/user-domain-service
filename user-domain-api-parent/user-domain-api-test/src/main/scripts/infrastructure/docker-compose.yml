@@ -6,12 +6,12 @@ version: '2'
 
 services:
   rabbitmq:
-      image: bitnami/rabbitmq:latest
+      image: sleepingtalent/rabbitmq-docker:latest
       networks:
         - microservices
       environment:
-        - RABBITMQ_USERNAME=hystrixUser
-        - RABBITMQ_PASSWORD=password
+        - RABBITMQ_DEFAULT_USER=hystrixUser
+        - RABBITMQ_DEFAULT_PASS=password
       ports:
         - "5672:5672"
         - "15672:15672"
