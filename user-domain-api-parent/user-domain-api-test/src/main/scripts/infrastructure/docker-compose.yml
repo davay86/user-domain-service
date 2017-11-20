@@ -5,20 +5,69 @@
 version: '2'
 
 services:
-  rabbitmq:
-      image: sleepingtalent/rabbitmq-docker:latest
-      networks:
-        - microservices
-      environment:
-        - RABBITMQ_DEFAULT_USER=hystrixUser
-        - RABBITMQ_DEFAULT_PASS=password
-      ports:
-        - "5672:5672"
-        - "15672:15672"
-      expose:
-        - "5672"
-        - "15672"
+#  rabbitmq:
+#      image: sleepingtalent/rabbitmq-docker:latest
+#      networks:
+#        - microservices
+#      environment:
+#        - RABBITMQ_DEFAULT_USER=hystrixUser
+#        - RABBITMQ_DEFAULT_PASS=password
+#      ports:
+#        - "5672:5672"
+#        - "15672:15672"
+#      expose:
+#        - "5672"
+#        - "15672"
   #rabbitmq url http://localhost:15672/
+
+  rabbitmq:
+    environment:
+      - TCP_PORTS=15672, 5672
+      - AUTOCLUSTER_TYPE=consul
+      - AUTOCLUSTER_DELAY=60
+      - CONSUL_HOST=consul
+      - CONSUL_SVC_ADDR_AUTO=true
+      - AUTOCLUSTER_CLEANUP=true
+      - CLEANUP_WARN_ONLY=false
+      - CONSUL_DEREGISTER_AFTER=60
+      - RABBITMQ_DEFAULT_USER=hystrixUser
+      - RABBITMQ_DEFAULT_PASS=password
+    networks:
+      - microservices
+    image: pivotalrabbitmq/rabbitmq-autocluster
+    expose:
+      - 15672
+      - 5672
+      - 5671
+      - 15671
+    tty: true
+    command:  sh -c "sleep 20; rabbitmq-server;"
+
+  rabbitmq-proxy:
+    image: dockercloud/haproxy
+    environment:
+      - MODE=tcp
+    links:
+      - rabbitmq
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - microservices
+
+  consul:
+    image: "consul"
+    container_name: "consul"
+    hostname: "consul"
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:53"
+    networks:
+      - microservices
+
 
   elk:
       image: scoussy/elk:latest
