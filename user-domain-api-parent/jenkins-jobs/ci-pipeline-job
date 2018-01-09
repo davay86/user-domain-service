@@ -34,10 +34,10 @@ node {
             }
         }
 
-        stage('Release to QA'){
-            sh "kubectl config use-context aws_QA"
-            sh "kubectl apply -f user-domain-api-parent/user-domain-api/kubernetes/user-domain-api-qa-deployment.yml --record"
-        }
+//        stage('Release to QA'){
+//            sh "kubectl config use-context aws_QA"
+//            sh "kubectl apply -f user-domain-api-parent/user-domain-api/kubernetes/user-domain-api-qa-deployment.yml --record"
+//        }
     } else {
         stage('Build') {
 

@@ -30,7 +30,7 @@ services:
   #http://localhost:8025
 
   email-service:
-      image: sleepingtalent/email-service:latest
+      image: emtdevelopment/email-service:latest
       environment:
       - SERVER_PORT=2223
       - SPRING_PROFILES_ACTIVE=test
@@ -46,7 +46,7 @@ services:
   #http://localhost:2223/email-service/info
 
   user-service:
-      image: sleepingtalent/user-service:latest
+      image: emtdevelopment/user-service:latest
       environment:
       - SERVER_PORT=2224
       - SPRING_PROFILES_ACTIVE=test
@@ -62,7 +62,7 @@ services:
   #http://localhost:2224/user-service/info
 
   user-domain-api:
-      image: sleepingtalent/user-domain-api:snapshot
+      image: emtdevelopment/user-domain-api:snapshot
       environment:
       - SERVER_PORT=2222
       - SPRING_PROFILES_ACTIVE=test

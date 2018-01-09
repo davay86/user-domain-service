@@ -98,7 +98,7 @@
                                 <configuration>
                                     <images>
                                         <image>
-                                            <name>sleepingtalent/user-domain-api:${project.version}-RC</name>
+                                            <name>emtdevelopment/user-domain-api:${project.version}-RC</name>
                                             <build>
                                                 <dockerFileDir>${project.parent.basedir}/user-domain-api/target/docker-dist</dockerFileDir>
                                             </build>
@@ -118,7 +118,7 @@
                                 <configuration>
                                     <images>
                                         <image>
-                                            <name>sleepingtalent/user-domain-api:latest</name>
+                                            <name>emtdevelopment/user-domain-api:latest</name>
                                             <build>
                                                 <dockerFileDir>${project.parent.basedir}/user-domain-api/target/docker-dist</dockerFileDir>
                                             </build>
@@ -286,7 +286,7 @@
                             <skip>${skip.build.microservices.services}</skip>
                             <images>
                                 <image>
-                                    <name>sleepingtalent/user-domain-api:snapshot</name>
+                                    <name>emtdevelopment/user-domain-api:snapshot</name>
                                     <build>
                                         <dockerFileDir>${project.parent.basedir}/user-domain-api/target/docker-dist</dockerFileDir>
                                     </build>

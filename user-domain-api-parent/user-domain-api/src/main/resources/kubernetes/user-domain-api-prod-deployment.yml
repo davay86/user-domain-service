@@ -12,7 +12,7 @@ spec:
         spec:
             containers:
             - name: user-domain-api
-              image: sleepingtalent/user-domain-api:@docker.release.version@
+              image: emtdevelopment/user-domain-api:@docker.release.version@
               readinessProbe:
                 httpGet:
                   path: /user-domain-api/health
