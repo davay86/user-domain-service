@@ -12,7 +12,7 @@ spec:
         spec:
             containers:
             - name: user-domain-api
-              image: emtdevelopment/user-domain-api:1.0.14-SNAPSHOT
+              image: emtdevelopment/user-domain-api:1.0.14
               readinessProbe:
                 httpGet:
                   path: /user-domain-api/health
