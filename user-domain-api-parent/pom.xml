@@ -10,7 +10,7 @@
 
     <groupId>com.babcock.api</groupId>
     <artifactId>user-domain-api-parent</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -24,7 +24,7 @@
     <scm>
         <developerConnection>scm:git:https://github.com/BabcockEMTDevelopment/user-domain-api.git</developerConnection>
         <connection>scm:git:https://github.com/BabcockEMTDevelopment/user-domain-api.git</connection>
-        <tag>1.0.14-RC</tag>
+        <tag>HEAD</tag>
     </scm>
 
 	<build>
