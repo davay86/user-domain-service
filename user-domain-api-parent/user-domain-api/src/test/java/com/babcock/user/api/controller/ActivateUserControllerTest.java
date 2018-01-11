@@ -62,6 +62,7 @@ public class ActivateUserControllerTest {
     @Test
     public void getPendingUsers(){
         String returnString = "returnString";
+
         server.expect(requestTo("http://localhost/user-service/activateUser/getPending"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withSuccess(returnString, MediaType.TEXT_PLAIN));

@@ -58,10 +58,8 @@ public class CreateUserIT {
         restTemplate.delete(mailServerUrl+"/api/v1/messages", String.class);
     }
 
-    @After
-    public void teardown(){
-        databaseHelper.clearOutUsers();
-    }
+
+
 
     @Test
     public void createUserAPI_createsUser_and_sendsNotificationEmail() throws InterruptedException {
