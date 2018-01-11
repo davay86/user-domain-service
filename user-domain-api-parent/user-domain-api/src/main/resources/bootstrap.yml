@@ -21,6 +21,8 @@ spring:
   cloud:
     config:
       uri: http://localhost:1111/config-api/
+      username: admin
+      password: password
 logging:
   config: classpath:logback.xml
 
@@ -31,6 +33,8 @@ spring:
     cloud:
       config:
         uri: http://config-api:1111/config-api/
+        username: admin
+        password: password
 logging:
   config: classpath:logback-docker.xml
 
@@ -43,6 +47,8 @@ spring:
   cloud:
     config:
       uri: http://config-api-gateway:1111/config-api/
+      username: admin
+      password: password
 logging:
   config: classpath:logback-kubernetes.xml
 
@@ -53,6 +59,8 @@ spring:
   cloud:
     config:
       uri: http://config-api-gateway:1111/config-api/
+      username: admin
+      password: password
 logging:
   config: classpath:logback-kubernetes.xml
 
